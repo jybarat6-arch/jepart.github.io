@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تتبع الطلب — المتمتع</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</head>
+<body>
+<div id="nav-root"></div>
+<section class="section" style="max-width:700px;margin:0 auto;">
+  <div class="sec-title" style="margin-bottom:20px;"><i class="ti ti-truck-delivery"></i> تتبع <span>طلبك</span></div>
+  <div style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:20px;">
+    <div style="font-size:14px;font-weight:700;margin-bottom:12px;">أدخل رقم الطلب</div>
+    <div style="display:flex;gap:10px;">
+      <input id="onum" type="text" value="MT-10481" style="flex:1;padding:11px 14px;border:2px solid var(--border);border-radius:10px;font-family:'Cairo',sans-serif;font-size:14px;outline:none;direction:ltr;text-align:right;" onfocus="this.style.borderColor='var(--pr)'" onblur="this.style.borderColor='var(--border)'">
+      <button class="btn-pr" onclick="trackO()"><i class="ti ti-search"></i> تتبع</button>
+    </div>
+  </div>
+  <div id="track-result"></div>
+</section>
+<div id="footer-root"></div>
+<script src="nav.js"></script>
+<script>
+document.getElementById('nav-root').innerHTML=renderNav('تتبع الطلب');
+document.getElementById('footer-root').innerHTML=renderFooter();
+updateCartUI();
+const steps=[
+  {icon:'ti-circle-check',label:'تم تأكيد الطلب',sub:'30 مايو 2026 — 9:15 ص',done:true},
+  {icon:'ti-package',label:'تم الاستلام من المتجر',sub:'30 مايو 2026 — 11:40 ص',done:true},
+  {icon:'ti-truck',label:'المندوب في الطريق إليك',sub:'30 مايو 2026 — 1:22 م',done:true},
+  {icon:'ti-home',label:'تم التوصيل',sub:'قريباً',done:false},
+];
+function trackO(){
+  const num=document.getElementById('onum').value.trim()||'MT-10481';
+  document.getElementById('track-result').innerHTML=`
+    <div style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:10px;">
+        <div><div style="font-size:18px;font-weight:900;">#${num}</div><div style="font-size:13px;color:var(--muted);">شمعات إشعال NGK عالية الأداء</div></div>
+        <span style="background:var(--pr-lt);color:var(--pr);font-size:12px;font-weight:700;padding:5px 14px;border-radius:20px;display:flex;align-items:center;gap:5px;"><i class="ti ti-truck" style="font-size:13px;"></i> المندوب في الطريق</span>
+      </div>
+      <div style="position:relative;">
+        ${steps.map((s,i)=>`
+        <div style="display:flex;align-items:flex-start;gap:16px;${i<steps.length-1?'margin-bottom:0':''}">
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div style="width:36px;height:36px;border-radius:50%;background:${s.done?'var(--pr)':'var(--surface)'};border:2px solid ${s.done?'var(--pr)':'var(--border)'};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <i class="ti ${s.icon}" style="font-size:16px;color:${s.done?'#fff':'var(--border)'};"></i>
+            </div>
+            ${i<steps.length-1?`<div style="width:2px;height:44px;background:${s.done?'var(--pr)':'var(--border)'};"></div>`:''}
+          </div>
+          <div style="padding-top:6px;">
+            <div style="font-size:14px;font-weight:700;color:${s.done?'var(--txt)':'var(--hint)'};">${s.label}</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px;">${s.sub}</div>
+          </div>
+        </div>`).join('')}
+      </div>
+      <div style="background:var(--surface);border-radius:12px;padding:16px;margin-top:22px;display:flex;align-items:center;gap:14px;border:1px solid var(--border);">
+        <div style="width:44px;height:44px;border-radius:50%;background:var(--pr);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="ti ti-user" style="color:#fff;font-size:20px;"></i></div>
+        <div><div style="font-size:13px;font-weight:700;">فهد السلمي — المندوب</div><div style="font-size:11px;color:var(--muted);">على بُعد 3.2 كم منك</div></div>
+        <a href="tel:0500000000" style="margin-right:auto;"><button class="btn-pr" style="padding:9px 16px;font-size:13px;"><i class="ti ti-phone"></i> اتصال</button></a>
+      </div>
+    </div>`;
+}
+trackO();
+</script>
+</body></html>

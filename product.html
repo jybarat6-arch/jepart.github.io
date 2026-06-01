@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تفاصيل المنتج — المتمتع</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</head>
+<body>
+<div id="nav-root"></div>
+<section class="section">
+  <div style="font-size:13px;color:var(--muted);margin-bottom:20px;">
+    <a href="index.html">الرئيسية</a> › <a href="products.html">قطع الغيار</a> › <span id="bc">...</span>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;" id="detail"></div>
+  <div style="margin-top:48px;">
+    <div class="sec-hd"><div class="sec-title"><i class="ti ti-sparkles"></i> منتجات <span>مشابهة</span></div></div>
+    <div class="products-grid" id="related"></div>
+  </div>
+</section>
+<div id="footer-root"></div>
+<script src="nav.js"></script>
+<script>
+document.getElementById('nav-root').innerHTML=renderNav('');
+document.getElementById('footer-root').innerHTML=renderFooter();
+updateCartUI();
+const id=new URLSearchParams(location.search).get('id');
+const p=PRODUCTS.find(x=>x.id===id)||PRODUCTS[0];
+document.title=p.name+' — المتمتع';
+document.getElementById('bc').textContent=p.name;
+let qty=1;
+document.getElementById('detail').innerHTML=`
+  <div style="background:var(--surface);border-radius:16px;height:380px;display:flex;align-items:center;justify-content:center;font-size:130px;border:2px solid var(--border);">${p.icon}</div>
+  <div>
+    <div style="font-size:12px;font-weight:700;color:var(--pr);margin-bottom:6px;">${p.brand}</div>
+    <h1 style="font-size:24px;font-weight:900;margin-bottom:10px;">${p.name}</h1>
+    <div style="color:var(--gold);font-size:15px;margin-bottom:6px;">${'★'.repeat(p.stars)}${'☆'.repeat(5-p.stars)} <span style="color:var(--muted);font-size:12px;">(${p.reviews} تقييم)</span></div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:16px;"><i class="ti ti-car" style="font-size:12px;"></i> متوافق مع: ${p.compat}</div>
+    <div style="background:var(--surface);border-radius:10px;padding:14px;margin-bottom:20px;display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px;">
+      <div><span style="color:var(--muted);">الحالة:</span> <strong style="color:var(--pr);">متوفر</strong></div>
+      <div><span style="color:var(--muted);">الضمان:</span> <strong>سنة كاملة</strong></div>
+      <div><span style="color:var(--muted);">التوصيل:</span> <strong>24 ساعة</strong></div>
+      <div><span style="color:var(--muted);">الأصل:</span> <strong>أصلي 100%</strong></div>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:22px;">
+      <div style="font-size:38px;font-weight:900;color:var(--pr);"><span style="font-size:16px;color:var(--muted);">ر.س</span> ${p.price}</div>
+      ${p.oldPrice?`<div style="font-size:20px;color:var(--hint);text-decoration:line-through;">ر.س ${p.oldPrice}</div><span style="background:var(--pr);color:#fff;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;">${p.disc}</span>`:''}
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;">
+      <div style="display:flex;align-items:center;border:2px solid var(--border);border-radius:10px;overflow:hidden;">
+        <button onclick="if(qty>1){qty--;document.getElementById('qv').textContent=qty;}" style="width:40px;height:42px;border:none;background:var(--surface);cursor:pointer;font-size:20px;">−</button>
+        <div id="qv" style="width:44px;text-align:center;font-weight:700;font-size:15px;">1</div>
+        <button onclick="qty++;document.getElementById('qv').textContent=qty;" style="width:40px;height:42px;border:none;background:var(--surface);cursor:pointer;font-size:20px;">+</button>
+      </div>
+      <button class="btn-pr" style="flex:1;justify-content:center;padding:13px;" onclick="addToCart('${p.id}','${p.name}',${p.price})"><i class="ti ti-shopping-cart-plus"></i> أضف للسلة</button>
+      <button onclick="toast('❤️ أضيف للمفضلة')" style="width:46px;height:46px;border:2px solid var(--border);background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;"><i class="ti ti-heart" style="font-size:20px;color:var(--muted);"></i></button>
+    </div>
+    <a href="cart.html"><button style="width:100%;background:var(--dark);color:#fff;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;"><i class="ti ti-bolt"></i> اشتري الآن</button></a>
+  </div>`;
+document.getElementById('related').innerHTML=PRODUCTS.filter(x=>x.id!==p.id).slice(0,5).map(renderProductCard).join('');
+</script>
+</body></html>

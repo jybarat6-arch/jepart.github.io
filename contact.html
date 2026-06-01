@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تواصل معنا — المتمتع</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</head>
+<body>
+<div id="nav-root"></div>
+<section class="section" style="max-width:900px;margin:0 auto;">
+  <div class="sec-title" style="margin-bottom:24px;"><i class="ti ti-headset"></i> تواصل <span>معنا</span></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;">
+    <div style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px;">
+      <div style="font-size:14px;font-weight:700;margin-bottom:18px;">أرسل لنا رسالة</div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div><label style="font-size:12px;font-weight:700;color:var(--muted);display:block;margin-bottom:5px;">الاسم الكامل</label><input type="text" placeholder="اسمك" style="width:100%;padding:10px 13px;border:2px solid var(--border);border-radius:9px;font-family:'Cairo',sans-serif;font-size:13px;outline:none;" onfocus="this.style.borderColor='var(--pr)'" onblur="this.style.borderColor='var(--border)'"></div>
+        <div><label style="font-size:12px;font-weight:700;color:var(--muted);display:block;margin-bottom:5px;">رقم الجوال / البريد</label><input type="text" placeholder="05XXXXXXXX" style="width:100%;padding:10px 13px;border:2px solid var(--border);border-radius:9px;font-family:'Cairo',sans-serif;font-size:13px;outline:none;" onfocus="this.style.borderColor='var(--pr)'" onblur="this.style.borderColor='var(--border)'"></div>
+        <div><label style="font-size:12px;font-weight:700;color:var(--muted);display:block;margin-bottom:5px;">الموضوع</label><select style="width:100%;padding:10px 13px;border:2px solid var(--border);border-radius:9px;font-family:'Cairo',sans-serif;font-size:13px;outline:none;background:#fff;"><option>استفسار عن منتج</option><option>مشكلة في طلب</option><option>طلب إرجاع</option><option>غير ذلك</option></select></div>
+        <div><label style="font-size:12px;font-weight:700;color:var(--muted);display:block;margin-bottom:5px;">الرسالة</label><textarea rows="4" placeholder="اكتب رسالتك هنا..." style="width:100%;padding:10px 13px;border:2px solid var(--border);border-radius:9px;font-family:'Cairo',sans-serif;font-size:13px;outline:none;resize:vertical;" onfocus="this.style.borderColor='var(--pr)'" onblur="this.style.borderColor='var(--border)'"></textarea></div>
+        <button class="btn-pr" style="justify-content:center;padding:13px;" onclick="toast('✓ تم إرسال رسالتك — سنرد خلال 24 ساعة')"><i class="ti ti-send"></i> إرسال الرسالة</button>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px;display:flex;align-items:center;gap:14px;">
+        <div style="width:48px;height:48px;border-radius:12px;background:var(--pr-lt);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="ti ti-phone" style="font-size:22px;color:var(--pr);"></i></div>
+        <div><div style="font-size:13px;font-weight:700;margin-bottom:2px;">اتصل بنا</div><div style="font-size:15px;color:var(--pr);font-weight:700;">920-000-1234</div><div style="font-size:11px;color:var(--muted);">الأحد – الخميس، 8ص – 10م</div></div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px;display:flex;align-items:center;gap:14px;">
+        <div style="width:48px;height:48px;border-radius:12px;background:#E8F8EB;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="ti ti-brand-whatsapp" style="font-size:22px;color:var(--pr);"></i></div>
+        <div><div style="font-size:13px;font-weight:700;margin-bottom:2px;">واتساب</div><div style="font-size:15px;color:var(--pr);font-weight:700;">966-500-000-000+</div><div style="font-size:11px;color:var(--muted);">رد خلال دقائق</div></div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px;display:flex;align-items:center;gap:14px;">
+        <div style="width:48px;height:48px;border-radius:12px;background:#E6F1FB;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="ti ti-mail" style="font-size:22px;color:#185FA5;"></i></div>
+        <div><div style="font-size:13px;font-weight:700;margin-bottom:2px;">البريد الإلكتروني</div><div style="font-size:15px;color:#185FA5;font-weight:700;">info@almotmee.sa</div><div style="font-size:11px;color:var(--muted);">رد خلال 24 ساعة</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<div id="footer-root"></div>
+<script src="nav.js"></script>
+<script>
+document.getElementById('nav-root').innerHTML=renderNav('تواصل معنا');
+document.getElementById('footer-root').innerHTML=renderFooter();
+updateCartUI();
+</script>
+</body></html>

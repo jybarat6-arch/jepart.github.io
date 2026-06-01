@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>المتمتع — قطع غيار السيارات</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</head>
+<body>
+<div id="nav-root"></div>
+
+<section class="hero">
+  <div class="hero-text">
+    <h2>جودة تدوم — أداء لا يتوقف</h2>
+    <h1>كل قطعة...<br><span>تصنع الفرق</span></h1>
+    <p>جودة أصلية — أداء يدوم — أسعار تنافسية<br>أكثر من 50,000 قطعة غيار لجميع أنواع السيارات</p>
+    <div class="hero-btns">
+      <a href="products.html"><button class="btn-pr"><i class="ti ti-arrow-left"></i> تسوق الآن</button></a>
+      <a href="products.html"><button class="btn-outline-w"><i class="ti ti-car"></i> ابحث حسب سيارتك</button></a>
+    </div>
+    <div class="hero-dots">
+      <div class="hero-dot active"></div>
+      <div class="hero-dot"></div>
+      <div class="hero-dot"></div>
+    </div>
+  </div>
+  <div class="hero-img">
+    <div class="hero-img-wrap">🔧</div>
+  </div>
+</section>
+
+<div id="car-search-root"></div>
+<div id="cats-root"></div>
+<div id="trust-root"></div>
+
+<section class="section">
+  <div class="sec-hd">
+    <div class="sec-title"><i class="ti ti-bolt"></i> عروض <span>خاصة</span></div>
+    <a href="offers.html" class="sec-all">عرض الكل <i class="ti ti-arrow-left"></i></a>
+  </div>
+  <div class="products-grid" id="offers-grid"></div>
+</section>
+
+<div class="promo-banner">
+  <div class="pb-txt">
+    <h2>عرض حصري للأعضاء <span>الجدد</span></h2>
+    <p>سجّل الآن واحصل على خصم 15% على أول طلبية — لفترة محدودة</p>
+  </div>
+  <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
+    <div class="pb-code">
+      <div class="pb-code-lbl">كود الخصم</div>
+      <div class="pb-code-val">MOTMEE15</div>
+      <div class="pb-code-disc">خصم 15% على الطلب الأول</div>
+    </div>
+    <a href="contact.html"><button class="btn-pr">سجّل الآن</button></a>
+  </div>
+</div>
+
+<section class="section">
+  <div class="sec-hd">
+    <div class="sec-title"><i class="ti ti-star"></i> الأكثر <span>مبيعاً</span></div>
+    <a href="products.html" class="sec-all">عرض الكل <i class="ti ti-arrow-left"></i></a>
+  </div>
+  <div class="products-grid" id="best-grid"></div>
+</section>
+
+<div id="footer-root"></div>
+<script src="nav.js"></script>
+<script>
+document.getElementById('nav-root').innerHTML=renderNav('الرئيسية');
+document.getElementById('car-search-root').innerHTML=renderCarSearch();
+document.getElementById('cats-root').innerHTML=renderCats();
+document.getElementById('trust-root').innerHTML=renderTrust();
+document.getElementById('footer-root').innerHTML=renderFooter();
+updateCartUI();
+const offers=PRODUCTS.filter(p=>p.disc);
+document.getElementById('offers-grid').innerHTML=offers.slice(0,5).map(renderProductCard).join('');
+document.getElementById('best-grid').innerHTML=PRODUCTS.slice(0,5).map(renderProductCard).join('');
+</script>
+</body></html>

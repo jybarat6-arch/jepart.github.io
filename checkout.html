@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>إتمام الشراء — المتمتع</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+.step-bar{display:flex;align-items:center;gap:0;margin:24px 0 32px;}
+.stp{display:flex;align-items:center;gap:8px;flex:1;font-size:13px;font-weight:600;color:var(--hint);}
+.stp.act{color:var(--pr);}
+.stp.done{color:var(--pr);}
+.stp-c{width:30px;height:30px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
+.stp.act .stp-c{border-color:var(--pr);background:var(--pr);color:#fff;}
+.stp.done .stp-c{border-color:var(--pr);background:var(--pr);color:#fff;}
+.stp-line{flex:1;height:2px;background:var(--border);}
+.stp-line.done{background:var(--pr);}
+.fi{width:100%;padding:10px 13px;border:2px solid var(--border);border-radius:9px;font-family:'Cairo',sans-serif;font-size:13px;outline:none;direction:rtl;background:#fff;transition:border-color .2s;}
+.fi:focus{border-color:var(--pr);}
+.fl{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:5px;display:block;}
+</style>
+</head>
+<body>
+<div id="nav-root"></div>
+<section class="section">
+  <div class="sec-title" style="margin-bottom:4px;"><i class="ti ti-credit-card"></i> إتمام <span>الشراء</span></div>
+  <div class="step-bar">
+    <div class="stp act" id="s1"><div class="stp-c">1</div>بيانات التوصيل</div>
+    <div class="stp-line" id="l1"></div>
+    <div class="stp" id="s2"><div class="stp-c">2</div>الدفع</div>
+    <div class="stp-line" id="l2"></div>
+    <div class="stp" id="s3"><div class="stp-c">3</div>تأكيد الطلب</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start;">
+    <div>
+      <div id="step1">
+        <div style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:14px;">
+          <div style="font-size:14px;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:8px;"><i class="ti ti-map-pin" style="color:var(--pr);"></i> عنوان التوصيل</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><label class="fl">الاسم الأول *</label><input class="fi" type="text" placeholder="محمد"></div>
+            <div><label class="fl">اسم العائلة *</label><input class="fi" type="text" placeholder="العتيبي"></div>
+            <div><label class="fl">رقم الجوال *</label><input class="fi" type="tel" placeholder="05XXXXXXXX" dir="ltr"></div>
+            <div><label class="fl">المدينة *</label><select class="fi"><option>الرياض</option><option>جدة</option><option>مكة المكرمة</option><option>الدمام</option></select></div>
+            <div style="grid-column:1/-1;"><label class="fl">الحي والشارع *</label><input class="fi" type="text" placeholder="الحي، الشارع، رقم المبنى"></div>
+          </div>
+        </div>
+        <button class="btn-pr" style="width:100%;justify-content:center;padding:14px;font-size:15px;" onclick="goS(2)">التالي: الدفع <i class="ti ti-arrow-left"></i></button>
+      </div>
+      <div id="step2" style="display:none;">
+        <div style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:14px;">
+          <div style="font-size:14px;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:8px;"><i class="ti ti-credit-card" style="color:var(--pr);"></i> طريقة الدفع</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <label style="display:flex;align-items:center;gap:14px;padding:16px;border:2px solid var(--pr);border-radius:12px;background:var(--pr-lt);cursor:pointer;">
+              <div style="width:22px;height:22px;border-radius:50%;border:2px solid var(--pr);background:var(--pr);display:flex;align-items:center;justify-content:center;"><div style="width:9px;height:9px;border-radius:50%;background:#fff;"></div></div>
+              <i class="ti ti-cash" style="font-size:22px;color:var(--pr);"></i>
+              <div><div style="font-size:13px;font-weight:700;">الدفع عند الاستلام</div><div style="font-size:11px;color:var(--muted);">ادفع نقداً أو بالبطاقة عند التوصيل</div></div>
+            </label>
+            <label style="display:flex;align-items:center;gap:14px;padding:16px;border:2px solid var(--border);border-radius:12px;cursor:pointer;" onclick="this.style.borderColor='var(--pr)'">
+              <div style="width:22px;height:22px;border-radius:50%;border:2px solid var(--border);"></div>
+              <i class="ti ti-credit-card" style="font-size:22px;color:var(--muted);"></i>
+              <div><div style="font-size:13px;font-weight:700;">بطاقة ائتمانية / مدى</div><div style="font-size:11px;color:var(--muted);">Visa، Mastercard، مدى</div></div>
+            </label>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button onclick="goS(1)" style="padding:13px 20px;border:2px solid var(--border);background:#fff;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Cairo',sans-serif;"><i class="ti ti-arrow-right"></i> رجوع</button>
+          <button class="btn-pr" style="flex:1;justify-content:center;padding:13px;font-size:15px;" onclick="goS(3)">تأكيد الطلب <i class="ti ti-check"></i></button>
+        </div>
+      </div>
+      <div id="step3" style="display:none;text-align:center;padding:50px 20px;">
+        <div style="width:80px;height:80px;border-radius:50%;background:var(--pr-lt);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;"><i class="ti ti-check" style="font-size:36px;color:var(--pr);"></i></div>
+        <div style="font-size:24px;font-weight:900;margin-bottom:10px;">تم تأكيد طلبك! 🎉</div>
+        <div style="font-size:14px;color:var(--muted);margin-bottom:28px;">رقم الطلب: <strong style="color:var(--pr);">#MT-10499</strong><br>سيصلك خلال 24 ساعة</div>
+        <a href="track.html"><button class="btn-pr" style="margin-left:10px;">تتبع الطلب</button></a>
+        <a href="index.html"><button style="background:none;border:2px solid var(--border);border-radius:10px;padding:13px 22px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Cairo',sans-serif;">العودة للرئيسية</button></a>
+      </div>
+    </div>
+    <div id="order-sum"></div>
+  </div>
+</section>
+<div id="footer-root"></div>
+<script src="nav.js"></script>
+<script>
+document.getElementById('nav-root').innerHTML=renderNav('');
+document.getElementById('footer-root').innerHTML=renderFooter();
+updateCartUI();
+const sub=cart.reduce((a,i)=>a+i.price*i.qty,0)||320;
+const ship=sub>300?0:25;
+document.getElementById('order-sum').innerHTML=`
+  <div style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px;">
+    <div style="font-size:14px;font-weight:700;margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:10px;">ملخص الطلب</div>
+    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px;"><span style="color:var(--muted);">المجموع</span><span>ر.س ${sub}</span></div>
+    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:12px;"><span style="color:var(--muted);">الشحن</span><span>${ship?'ر.س '+ship:'<span style="color:var(--pr);">مجاني</span>'}</span></div>
+    <div style="display:flex;justify-content:space-between;font-size:17px;font-weight:900;border-top:1px solid var(--border);padding-top:12px;"><span>الإجمالي</span><span style="color:var(--pr);">ر.س ${sub+ship}</span></div>
+  </div>`;
+
+let cs=1;
+function goS(n){
+  cs=n;
+  [1,2,3].forEach(i=>{
+    document.getElementById('step'+i).style.display=i===n?'block':'none';
+    const el=document.getElementById('s'+i);
+    el.className='stp'+(i<n?' done':i===n?' act':'');
+    el.querySelector('.stp-c').innerHTML=i<n?'<i class="ti ti-check" style="font-size:13px;"></i>':i;
+    if(i<3)document.getElementById('l'+i).className='stp-line'+(i<n?' done':'');
+  });
+  if(n===3){cart=[];saveCart();updateCartUI();}
+}
+</script>
+</body></html>

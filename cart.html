@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>السلة — المتمتع</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</head>
+<body>
+<div id="nav-root"></div>
+<section class="section">
+  <div class="sec-title" style="margin-bottom:20px;"><i class="ti ti-shopping-cart"></i> سلة <span>التسوق</span></div>
+  <div style="display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start;" id="cart-layout">
+    <div id="cart-items"></div>
+    <div id="cart-sum"></div>
+  </div>
+</section>
+<div id="footer-root"></div>
+<script src="nav.js"></script>
+<script>
+document.getElementById('nav-root').innerHTML=renderNav('');
+document.getElementById('footer-root').innerHTML=renderFooter();
+updateCartUI();
+function renderCart(){
+  const ie=document.getElementById('cart-items'),se=document.getElementById('cart-sum');
+  if(!cart.length){
+    ie.innerHTML='<div style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:3rem;text-align:center;"><i class="ti ti-shopping-cart" style="font-size:52px;color:var(--border);"></i><div style="font-size:16px;font-weight:700;margin-top:14px;color:var(--muted);">السلة فارغة</div><a href="products.html"><button class="btn-pr" style="margin-top:16px;">تسوق الآن</button></a></div>';
+    se.innerHTML='';return;
+  }
+  const sub=cart.reduce((a,i)=>a+i.price*i.qty,0);
+  const ship=sub>300?0:25;
+  ie.innerHTML=cart.map(i=>`
+    <div style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px;display:flex;align-items:center;gap:16px;">
+      <div style="width:80px;height:80px;background:var(--surface);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;border:1px solid var(--border);">📦</div>
+      <div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:700;margin-bottom:4px;">${i.name}</div><div style="font-size:14px;color:var(--pr);font-weight:700;">ر.س ${i.price}</div></div>
+      <div style="display:flex;align-items:center;border:2px solid var(--border);border-radius:9px;overflow:hidden;">
+        <button onclick="chg('${i.id}',-1)" style="width:34px;height:34px;border:none;background:var(--surface);cursor:pointer;font-size:16px;">−</button>
+        <div style="width:38px;text-align:center;font-weight:700;">${i.qty}</div>
+        <button onclick="chg('${i.id}',1)" style="width:34px;height:34px;border:none;background:var(--surface);cursor:pointer;font-size:16px;">+</button>
+      </div>
+      <div style="font-size:16px;font-weight:900;min-width:72px;text-align:left;color:var(--pr);">ر.س ${i.price*i.qty}</div>
+      <button onclick="rm('${i.id}')" style="background:none;border:none;cursor:pointer;"><i class="ti ti-trash" style="font-size:20px;color:var(--hint);"></i></button>
+    </div>`).join('');
+  se.innerHTML=`
+    <div style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;">
+      <div style="font-size:15px;font-weight:700;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:12px;">ملخص الطلب</div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px;"><span style="color:var(--muted);">المجموع الفرعي</span><span>ر.س ${sub}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:12px;"><span style="color:var(--muted);">الشحن</span><span>${ship?'ر.س '+ship:'<span style="color:var(--pr);font-weight:700;">مجاني</span>'}</span></div>
+      ${sub<300?`<div style="background:var(--pr-lt);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--pr-dk);margin-bottom:12px;"><i class="ti ti-info-circle"></i> أضف ر.س ${300-sub} للحصول على شحن مجاني</div>`:''}
+      <div style="display:flex;justify-content:space-between;font-size:18px;font-weight:900;border-top:1px solid var(--border);padding-top:12px;margin-bottom:16px;"><span>الإجمالي</span><span style="color:var(--pr);">ر.س ${sub+ship}</span></div>
+      <a href="checkout.html"><button class="btn-pr" style="width:100%;justify-content:center;padding:14px;font-size:15px;">إتمام الشراء <i class="ti ti-arrow-left"></i></button></a>
+      <a href="products.html"><button style="width:100%;background:none;border:2px solid var(--border);border-radius:10px;padding:11px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Cairo',sans-serif;margin-top:8px;">متابعة التسوق</button></a>
+    </div>`;
+}
+function chg(id,d){const i=cart.findIndex(x=>x.id===id);if(i>-1){cart[i].qty+=d;if(cart[i].qty<=0)cart.splice(i,1);}saveCart();updateCartUI();renderCart();}
+function rm(id){cart=cart.filter(i=>i.id!==id);saveCart();updateCartUI();renderCart();}
+renderCart();
+</script>
+</body></html>

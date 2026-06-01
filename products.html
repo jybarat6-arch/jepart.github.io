@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>قطع الغيار — المتمتع</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+.filter-sidebar{background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;position:sticky;top:84px;}
+.filter-sec{margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:16px;}
+.filter-sec:last-child{border:none;margin:0;padding:0;}
+.filter-sec h4{font-size:13px;font-weight:700;margin-bottom:12px;}
+.filter-check{display:flex;align-items:center;gap:8px;margin-bottom:8px;cursor:pointer;font-size:13px;}
+.filter-check input[type=checkbox]{accent-color:var(--pr);width:16px;height:16px;}
+.price-inputs{display:flex;gap:8px;align-items:center;}
+.price-input{flex:1;padding:7px 10px;border:1px solid var(--border);border-radius:7px;font-family:'Cairo',sans-serif;font-size:12px;outline:none;text-align:center;}
+.price-input:focus{border-color:var(--pr);}
+.apply-btn{width:100%;background:var(--pr);color:#fff;border:none;border-radius:8px;padding:9px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif;margin-top:10px;}
+</style>
+</head>
+<body>
+<div id="nav-root"></div>
+<div id="cats-root"></div>
+<section class="section" style="padding-top:24px;">
+  <div style="display:grid;grid-template-columns:220px 1fr;gap:20px;align-items:start;">
+    <div class="filter-sidebar">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div style="font-size:15px;font-weight:700;">التصفية</div>
+        <button onclick="resetF()" style="font-size:12px;color:var(--pr);background:none;border:none;cursor:pointer;font-family:'Cairo',sans-serif;font-weight:600;">إعادة تعيين</button>
+      </div>
+      <div class="filter-sec">
+        <h4>الفئة</h4>
+        <label class="filter-check"><input type="checkbox" onchange="applyF()" checked> قطع المحرك</label>
+        <label class="filter-check"><input type="checkbox" onchange="applyF()"> نظام الفرامل</label>
+        <label class="filter-check"><input type="checkbox" onchange="applyF()"> الكهرباء</label>
+        <label class="filter-check"><input type="checkbox" onchange="applyF()"> الزيوت والفلتر</label>
+        <label class="filter-check"><input type="checkbox" onchange="applyF()"> التعليق</label>
+      </div>
+      <div class="filter-sec">
+        <h4>السعر</h4>
+        <div class="price-inputs">
+          <input type="number" class="price-input" id="min-p" placeholder="من" value="0">
+          <span style="color:var(--muted);">—</span>
+          <input type="number" class="price-input" id="max-p" placeholder="إلى" value="1000">
+        </div>
+        <button class="apply-btn" onclick="applyF()">تطبيق</button>
+      </div>
+      <div class="filter-sec">
+        <h4>الماركة</h4>
+        <label class="filter-check"><input type="checkbox" onchange="applyF()"> BOSCH</label>
+        <label class="filter-check"><input type="checkbox" onchange="applyF()"> BREMBO</label>
+        <label class="filter-check"><input type="checkbox" onchange="applyF()"> NGK</label>
+        <label class="filter-check"><input type="checkbox" onchange="applyF()"> PHILIPS</label>
+        <label class="filter-check"><input type="checkbox" onchange="applyF()"> VARTA</label>
+      </div>
+    </div>
+    <div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+        <div style="font-size:15px;font-weight:700;" id="res-count">جميع المنتجات (10)</div>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <input style="padding:8px 12px;border:1px solid var(--border);border-radius:9px;font-family:'Cairo',sans-serif;font-size:13px;outline:none;width:200px;" type="text" id="srch" placeholder="بحث..." oninput="applyF()">
+          <select onchange="applyF()" id="sort-s" style="padding:8px 12px;border:1px solid var(--border);border-radius:9px;font-family:'Cairo',sans-serif;font-size:13px;background:#fff;outline:none;">
+            <option value="d">الأكثر مبيعاً</option>
+            <option value="pa">السعر: الأقل أولاً</option>
+            <option value="pd">السعر: الأعلى أولاً</option>
+          </select>
+        </div>
+      </div>
+      <div class="products-grid" id="products-grid"></div>
+    </div>
+  </div>
+</section>
+<div id="footer-root"></div>
+<script src="nav.js"></script>
+<script>
+document.getElementById('nav-root').innerHTML=renderNav('قطع المحرك');
+document.getElementById('cats-root').innerHTML=renderCats();
+document.getElementById('footer-root').innerHTML=renderFooter();
+updateCartUI();
+function applyF(){
+  const q=(document.getElementById('srch').value||'').toLowerCase();
+  const mn=parseFloat(document.getElementById('min-p').value)||0;
+  const mx=parseFloat(document.getElementById('max-p').value)||9999;
+  const sort=document.getElementById('sort-s').value;
+  let list=[...PRODUCTS].filter(p=>p.price>=mn&&p.price<=mx);
+  if(q)list=list.filter(p=>p.name.includes(q)||p.brand.toLowerCase().includes(q));
+  if(sort==='pa')list.sort((a,b)=>a.price-b.price);
+  if(sort==='pd')list.sort((a,b)=>b.price-a.price);
+  document.getElementById('res-count').textContent=`نتائج البحث (${list.length})`;
+  document.getElementById('products-grid').innerHTML=list.length?list.map(renderProductCard).join(''):'<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted);">لا توجد نتائج</div>';
+}
+function resetF(){document.getElementById('srch').value='';document.getElementById('min-p').value=0;document.getElementById('max-p').value=1000;applyF();}
+applyF();
+</script>
+</body></html>
